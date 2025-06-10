@@ -83,6 +83,7 @@ public class Main {
             userInputStatement.setString(1, userInput);
             ResultSet userResults = userInputStatement.executeQuery();
             while (userResults.next()) {
+                System.out.println("===== Product Details =====");
                 System.out.println("Product ID: " + userResults.getString("ProductID"));
                 System.out.println("Name: " + userResults.getString("ProductName"));
                 System.out.println("Price: " + userResults.getString("UnitPrice"));
