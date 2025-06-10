@@ -10,6 +10,7 @@ public class Main {
             System.out.println("What do you want to do?");
             System.out.println("1) Display all products");
             System.out.println("2) Display all customers");
+            System.out.println("3) Display all categories");
             System.out.println("0) Exit");
             System.out.print("Choose an option: ");
             int userInput = Integer.parseInt(scanner.nextLine());
@@ -20,6 +21,9 @@ public class Main {
                     break;
                 case 2:
                     displayAllCustomers();
+                    break;
+                case 3:
+                    displayAllCategories();
                     break;
                 case 0:
                     keepGoing = false;
@@ -83,10 +87,14 @@ public class Main {
                 System.out.println("Name: " + userResults.getString("ProductName"));
                 System.out.println("Price: " + userResults.getString("UnitPrice"));
                 System.out.println("Stock: " + userResults.getString("UnitsInStock"));
+                System.out.println("======================================================");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    private static void displayAllCategories() {
+
     }
 
 }
