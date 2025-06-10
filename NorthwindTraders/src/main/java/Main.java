@@ -2,9 +2,9 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class Main {
+    private static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) throws ClassNotFoundException {
         boolean keepGoing = true;
-        Scanner scanner = new Scanner(System.in);
         while (keepGoing) {
 
             System.out.println("What do you want to do?");
@@ -61,18 +61,28 @@ public class Main {
         String password = "yearup";
         String url = "jdbc:mysql://localhost:3306/northwind";
         String secureQuery = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock FROM products;";
+        String userInputQuery = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock FROM products WHERE ProductID = ?";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             PreparedStatement allProducts = connection.prepareStatement(secureQuery);
             ResultSet results = allProducts.executeQuery();
             while(results.next()) {
                 System.out.println("Product ID: " + results.getString("ProductID"));
                 System.out.println("Name: " + results.getString("ProductName"));
-                System.out.println("Price: " + results.getString("UnitPrice"));
-                System.out.println("Stock: " + results.getString("UnitsInStock"));
                 System.out.println("======================================================");
             }
             System.out.println("All products in the system.");
             System.out.println("======================================================");
+            System.out.print("Type in Category ID for product details: ");
+            String userInput = scanner.nextLine();
+            PreparedStatement userInputStatement = connection.prepareStatement(userInputQuery);
+            userInputStatement.setString(1, userInput);
+            ResultSet userResults = userInputStatement.executeQuery();
+            while (userResults.next()) {
+                System.out.println("Product ID: " + userResults.getString("ProductID"));
+                System.out.println("Name: " + userResults.getString("ProductName"));
+                System.out.println("Price: " + userResults.getString("UnitPrice"));
+                System.out.println("Stock: " + userResults.getString("UnitsInStock"));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

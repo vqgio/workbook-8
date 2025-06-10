@@ -22,3 +22,6 @@
 ////                    System.out.println("Title: " + rs.getString("title"));
 //            }
 //        }
+
+ System.out.println("Price: " + results.getString("UnitPrice"));
+ System.out.println("Stock: " + results.getString("UnitsInStock"));
