@@ -48,11 +48,11 @@ public class Main {
                 System.out.println("Phone Number: " + results.getString("Phone"));
                 System.out.println("======================================================");
             }
+            System.out.println("All customers in the system.");
+            System.out.println("======================================================");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("All customers in the system.");
-        System.out.println("======================================================");
     }
 
     private static void displayAllProducts() throws ClassNotFoundException {
@@ -71,11 +71,11 @@ public class Main {
                 System.out.println("Stock: " + results.getString("UnitsInStock"));
                 System.out.println("======================================================");
             }
+            System.out.println("All products in the system.");
+            System.out.println("======================================================");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("All products in the system.");
-        System.out.println("======================================================");
     }
 
 }
