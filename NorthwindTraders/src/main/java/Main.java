@@ -74,6 +74,7 @@ public class Main {
             System.out.println("======================================================");
             System.out.print("Type in Category ID for product details: ");
             String userInput = scanner.nextLine();
+            System.out.println("======================================================");
             PreparedStatement userInputStatement = connection.prepareStatement(userInputQuery);
             userInputStatement.setString(1, userInput);
             ResultSet userResults = userInputStatement.executeQuery();
