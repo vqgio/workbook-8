@@ -68,14 +68,40 @@ public class Main {
             ResultSet results = allCustomers.executeQuery();
             while(results.next()) {
                 System.out.println("Contact Name: " + results.getString("ContactName"));
+                System.out.println("Company Name: " + results.getString("CompanyName"));
+                System.out.println("City: " + results.getString("City"));
+                System.out.println("Country: " + results.getString("Country"));
+                System.out.println("Phone Number: " + results.getString("Phone"));
+                System.out.println("======================================================");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("All customers in the system.");
+        System.out.println("======================================================");
     }
 
-    private static void displayAllProducts() {
-
+    private static void displayAllProducts() throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        String username = "root";
+        String password = "yearup";
+        String url = "jdbc:mysql://localhost:3306/northwind";
+        String secureQuery = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock FROM products;";
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            PreparedStatement allProducts = connection.prepareStatement(secureQuery);
+            ResultSet results = allProducts.executeQuery();
+            while(results.next()) {
+                System.out.println("Product ID: " + results.getString("ProductID"));
+                System.out.println("Name: " + results.getString("ProductName"));
+                System.out.println("Price: " + results.getString("UnitPrice"));
+                System.out.println("Stock: " + results.getString("UnitsInStock"));
+                System.out.println("======================================================");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("All products in the system.");
+        System.out.println("======================================================");
     }
 
 }
