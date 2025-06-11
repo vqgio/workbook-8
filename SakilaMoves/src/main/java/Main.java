@@ -21,7 +21,7 @@ public class Main {
             while (keepGoing) {
                 System.out.println("What would you like to do today?");
                 System.out.println("1) Search actor by last name");
-                System.out.println("2) Search actor by full name to find movies in");
+                System.out.println("2) Find movies certain actor featured in");
                 System.out.println("0) Exit");
                 System.out.print("Choose an option: ");
                 int userInput = Integer.parseInt(scanner.nextLine());
