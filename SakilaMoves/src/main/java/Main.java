@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static final Scanner scanner = new Scanner(System.in);
+    static final Scanner scanner = new Scanner(System.in);
     private static final String url = "jdbc:mysql://localhost:3306/sakila?user=root&password=yearup";
 
     public static void main(String[] args) {
@@ -17,6 +19,8 @@ public class Main {
         try(BasicDataSource dataSource = new BasicDataSource()) {
             dataSource.setUrl(url);
             Connection connection = dataSource.getConnection();
+
+            DataManager dataManager = new DataManager(dataSource);
 
             while (keepGoing) {
                 System.out.println("What would you like to do today?");
@@ -42,28 +46,36 @@ public class Main {
         }
     }
 
-    private static void searchByLastName(Connection connection) {
-        System.out.print("Enter actors last name: ");
+    private static void searchByLastName(Connection connection) throws SQLException {
+        System.out.println("Enter actor last name: ");
         String lastName = scanner.nextLine();
-        System.out.println("====================================");
-
-        String secureQuery = "SELECT actor_id, first_name, last_name FROM actor WHERE last_name = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(secureQuery)) {
+        
+        String query = "SELECT actor_id, first_name, last_name FROM actor WHERE last_name = ?";
+        List<Actor> actors = new ArrayList<>();
+        
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, lastName);
             ResultSet results = preparedStatement.executeQuery();
-            //can be better with if do else statement
+            
             while (results.next()) {
-                System.out.println("===== Results =====");
-                System.out.println("Actor ID: " + results.getInt("actor_id"));
-                System.out.println("First Name: " + results.getString("first_name"));
-                System.out.println("Last Name: " + results.getString("last_name"));
-                System.out.println("------------------------------------");
+                Actor actor = new Actor(
+                    results.getInt("actor_id"),
+                    results.getString("first_name"),
+                    results.getString("last_name")
+                );
+                actors.add(actor);
             }
+        }
+        
+        if (actors.isEmpty()) {
+            System.out.println("No actors found.");
             System.out.println("====================================");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } else {
+            System.out.println("===== Results =====");
+            actors.forEach(System.out::println);
         }
     }
+
     private static void searchByFullName(Connection connection) {
         System.out.println("Enter actor first name: ");
         String firstName = scanner.nextLine();
@@ -92,6 +104,5 @@ public class Main {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
